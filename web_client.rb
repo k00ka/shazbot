@@ -1,7 +1,5 @@
 require 'slack'
-Slack.configure do |config|
-    config.token = 'xoxb-40243770482-9Li4xi1aYODDZYHbVbCEffgP'
-end
+Slack.config.token = ENV['SLACK_BOT_TOKEN']
 
 client = Slack::Web::Client.new
 client.auth_test
