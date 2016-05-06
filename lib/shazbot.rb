@@ -1,25 +1,28 @@
 require 'slack'
-require 'byebug'
-require './behaviour'
+require './lib/behaviour'
 
 class Shazbot < Slack::RealTime::Client
   include Behaviour::Handlers
 
   def initialize(auth_token, behaviours)
-    # set the token _before_ initializing the client
-    unless auth_token
-      $stderr.puts "No token set! Bailing!"
-      raise ArgumentError, "Token not set"
-    end
-    Slack.config.token = auth_token
-
+    set_auth_token(auth_token) # set the token before initializing the client!
     super()
-
     @behaviours = behaviours
     register_callbacks
   end
 
+  def self.token_env_var
+    "SHAZBOT_SLACK_TOKEN"
+  end
+
 private
+  def set_auth_token(token)
+    unless token
+      $stderr.puts "No token set! Bailing!"
+      raise ArgumentError, "Token not set. Perhaps you forgot to set #{self.class.token_env_var} in your environment?"
+    end
+    Slack.config.token = token
+  end
 
   def register_callbacks
     on :hello do
@@ -43,6 +46,3 @@ private
     end
   end
 end
-
-bot = Shazbot.new(ENV['SLACK_BOT_TOKEN'], Behaviour.config)
-bot.start!
