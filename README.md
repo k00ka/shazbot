@@ -75,6 +75,10 @@ Here are the steps to get you started with the repo.
 ![](images/nine.png)
 1. Type in the name of your bot, and click Go,
 ![](images/ten.png)
+1. Create and export a shell variable with your token and run your bot.
+![](images/eleven.png)
 1. You are now able to direct message “DM” your bot!
 ![](images/twelve.png)
 1. Try setting a breakpoint in the Behaviour::Handlers#say_hi method and triggering it by typing "hi" into your chat.
+
+## Congrats on your new Slackbot intgration!

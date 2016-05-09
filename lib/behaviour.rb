@@ -27,7 +27,7 @@ module Behaviour
     end
 
     def say_wat?(data)
-      message channel: data.channel, text: "Sorry <@#{data.user}>, what? :question::question:"
+      message channel: data.channel, text: "Sorry <@#{data.user}>, what:question:"
     end
 
     def say_time(data)
