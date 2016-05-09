@@ -11,15 +11,11 @@ class Shazbot < Slack::RealTime::Client
     register_callbacks
   end
 
-  def self.token_env_var
-    "SHAZBOT_SLACK_TOKEN"
-  end
-
 private
   def set_auth_token(token)
     unless token
       $stderr.puts "No token set! Bailing!"
-      raise ArgumentError, "Token not set. Perhaps you forgot to set #{self.class.token_env_var} in your environment?"
+      raise ArgumentError, "Token not set. Perhaps you forgot to set and export the token variable in your environment?"
     end
     Slack.config.token = token
   end
@@ -31,10 +27,14 @@ private
 
     on :message do |data|
       # DO NOT REMOVE: ignore any messages that are either from a bot or on a general channel (i.e. DMs only)
-      next if users[data.user].is_bot || data.channel.start_with?('C')
+      next if !users[data.user] || users[data.user].is_bot || data.channel.start_with?('C')
 
       matcher, handler = @behaviours.detect { |matcher, _| matcher.respond_to?(:call) ? matcher.call(data.text) : data.text.match(matcher) }
-      method(handler).call(data) if handler
+      begin
+        method(handler).call(data) if handler
+      rescue Exception => e
+        $stderr.puts "handler threw an exception:\n#{e.message}\n#{e.backtrace.inspect}"
+      end
     end
 
     on :close do |_data|

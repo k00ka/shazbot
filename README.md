@@ -2,7 +2,7 @@ Shazbot - the Ruby Hack Night Chatbot
 =====================================
 
 Slides and assets for the Shazbot workshop [first presented at Toronto Ruby Hack Night, May 11, 2016]  
-Workshop for learning Chatbots and Slack
+Workshop for learning Chatbots and Slack  
 Created by David Andrews and Jason Schweier  
 
 Slides for the workshop are here:  
@@ -22,6 +22,7 @@ Here are the steps to get you started with the repo.
 1. For this workshop, you will need a laptop with the following:
   - [x] Ruby 2.x  
   - [x] A Github account  
+
   Note: We have included a ``.ruby-version`` file locked to 2.2.3, which you can change to any Ruby 2.x version if you don't have 2.2.3 installed  
   More detailed instructions for each platform are included in the footer. Refer there if you are having issues.
 
