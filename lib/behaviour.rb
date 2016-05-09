@@ -9,10 +9,10 @@ module Behaviour
   # This table specifies matchers and handlers. The first matching row will be run.
   @@config = 
   [
-    [ /(hi|hello|howdy)/, :say_hi ],
+    [ /\b(hi|hello|howdy)\b/, :say_hi ],
     [ "time", :say_time ],
-    [ /gif/, :serve_a_gif ],
-    [ /weather/, :say_the_forecast ],
+    [ /\bgif\b/, :serve_a_gif ],
+    [ ->(text){ text =~ /\bweather\b/ }, :say_current_temp ],
     [ ->(text){ true }, :say_wat? ]
   ]
 
@@ -50,7 +50,7 @@ module Behaviour
       message channel: data.channel, text: response
     end
 
-    def say_the_forecast(data)
+    def say_current_temp(data)
       uri = URI.parse("http://api.openweathermap.org/data/2.5/weather?APPID=#{@@weather_token}&q=#{URI.escape(data.text)}") 
       begin
         weather = JSON.parse(uri.read)
