@@ -55,28 +55,28 @@ Here are the steps to get you started with the repo.
 
 ## To get a Slack API token
 1. In a web browser, go to slack.com and log in,
-!(images/one.png)
+![](images/one.png)
 1. Click on Your teams in the top right corner, and choose TorontoRB,
   - If TorontoRB is not there, go to http://slack.rubytoronto.com and do so,
-!(images/two.png)
+![](images/two.png)
 1. Choose Apps & Integrations from the side menu,
-!(images/three.png)
+![](images/three.png)
 1. Choose Build you own in the top right corner,
-!(images/four.png)
+![](images/four.png)
 1. Choose Make a Custom Integration on the right side,
-!(images/five.png)
+![](images/five.png)
 1. Choose Bots under Build a Custom Integration,
-!(images/six.png)
+![](images/six.png)
 1. Under bots, choose a username for your bot - make it unique and end with “bot”, and click Add bot integration,
-!(images/seven.png)
+![](images/seven.png)
 1. Copy the API token, finish the form and click Save integration,
-!(images/eight.png)
+![](images/eight.png)
 1. Back in slack, in the TorontoRB group, choose Open a Direct Message “+”,
-!(images/nine.png)
+![](images/nine.png)
 1. Type in the name of your bot, and click Go,
-!(images/ten.png)
+![](images/ten.png)
 1. You are now able to direct message “DM” your bot!
-!(images/twelve.png)
+![](images/twelve.png)
 
 
 - Sign up for the [Toronto Ruby Slack Team](https://torontoruby.slack.com/)
