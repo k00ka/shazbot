@@ -23,11 +23,11 @@ module Behaviour
     @@giphy_token = 'dc6zaTOxFJmzC'
 
     def say_hi(data)
-      message channel: data.channel, text: "Hi <@#{data.user}>!"
+      message channel: data.channel, text: "Hi <@#{data.user}>! :wave:"
     end
 
     def say_wat?(data)
-      message channel: data.channel, text: "Sorry <@#{data.user}>, what?"
+      message channel: data.channel, text: "Sorry <@#{data.user}>, what? :question::question:"
     end
 
     def say_time(data)

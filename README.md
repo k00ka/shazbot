@@ -53,11 +53,11 @@ Here are the steps to get you started with the repo.
   ```
   You are (almost) there!
 
-## To get a Slack API token
+## How to set up a conversation with your own Slackbot
 1. In a web browser, go to slack.com and log in,
 ![](images/one.png)
 1. Click on Your teams in the top right corner, and choose TorontoRB,
-  - If TorontoRB is not there, go to http://slack.rubytoronto.com and do so,
+  - If TorontoRB is not there, surf to slack(dot)rubytoronto(dot)com and sign up,
 ![](images/two.png)
 1. Choose Apps & Integrations from the side menu,
 ![](images/three.png)
@@ -77,21 +77,4 @@ Here are the steps to get you started with the repo.
 ![](images/ten.png)
 1. You are now able to direct message “DM” your bot!
 ![](images/twelve.png)
-
-
-- Sign up for the [Toronto Ruby Slack Team](https://torontoruby.slack.com/)
-- Sign in after the invite email
-- Visit the [Slack API docs](https://api.slack.com)
-- Under `Authentication` on the left panel, click on `Tokens for Testing`
-- Request a token for the TorontoRB team
-
-Note: you will have to enter your password and click a confirmation button agreeing to the Slack API Terms of Service.
-
-1. MORE TO COME To test your machine:
-  ```sh
-  % git checkout epic1
-  % ruby asteroids.rb
-  ```
-1. Go into Slack
-1. Invite your bot
-1. Other instructions
+1. Try setting a breakpoint in the Behaviour::Handlers#say_hi method and triggering it by typing "hi" into your chat.
