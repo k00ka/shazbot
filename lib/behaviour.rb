@@ -12,7 +12,7 @@ module Behaviour
     [ /\b(hi|hello|howdy)\b/, :say_hi ],
     [ "time", :say_time ],
     [ /\bgif\b/, :serve_a_gif ],
-    [ ->(text){ text =~ /\bweather\b/ }, :say_current_temp ],
+    [ ->(text){ text =~ /\b(weather|temperature)\b/ }, :say_current_temp ],
     [ ->(text){ true }, :say_wat? ]
   ]
 
@@ -31,7 +31,8 @@ module Behaviour
     end
 
     def say_time(data)
-      message channel: data.channel, text: "It is now #{Time.now.strftime("%l:%M %P").strip}"
+      response = [ "It is now #{Time.now.strftime("%l:%M %P").strip}", "The time is currently #{Time.now.strftime("%l:%M %P").strip}", "I've got #{Time.now.strftime("%l:%M %P").strip}" ].sample
+      message channel: data.channel, text: response
     end
 
     def serve_a_gif(data)
@@ -43,6 +44,7 @@ module Behaviour
           response = "I didn't find anything. https://media.giphy.com/media/PgbXsiT0EVuta/200_d.gif"
         else
           response = response["fixed_height_downsampled_url"]
+          response = "LOL. I can't stop laughing at this one. #{response}" if rand < 0.1 # add with 1/10 frequency
         end
       rescue Exception => e
         response = "Oops. https://media.giphy.com/media/AmT7Raa4GJQsM/200_d.gif"
