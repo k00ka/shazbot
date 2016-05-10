@@ -20,8 +20,11 @@ GEM
     hashie (3.4.4)
     i18n (0.7.0)
     json (1.8.3)
+    mini_portile2 (2.0.0)
     minitest (5.8.4)
     multipart-post (2.0.0)
+    nokogiri (1.6.7.2)
+      mini_portile2 (~> 2.0.0.rc2)
     slack-ruby-client (0.7.1)
       activesupport
       faraday
@@ -36,6 +39,8 @@ GEM
     websocket-driver (0.6.3)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
+    wolfram (0.2.1)
+      nokogiri (>= 1.4.3)
 
 PLATFORMS
   ruby
@@ -45,6 +50,7 @@ DEPENDENCIES
   eventmachine
   faye-websocket
   slack-ruby-client
+  wolfram
 
 BUNDLED WITH
    1.12.1
