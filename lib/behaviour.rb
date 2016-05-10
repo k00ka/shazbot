@@ -1,6 +1,8 @@
 require 'slack'
 require 'open-uri'
 require 'byebug'
+require 'wolfram'
+require "pry"
 
 module Behaviour
   def self.config
@@ -8,12 +10,13 @@ module Behaviour
   end
 
   # This table specifies matchers and handlers. The first matching row will be run.
-  @@config = 
+  @@config =
   [
     [ /\b(hi|hello|howdy)\b/, :say_hi ],
     [ "time", :say_time ],
     [ /\bgif\b/, :serve_a_gif ],
-    [ ->(text){ text =~ /\b(weather|temperature)\b/ }, :say_current_temp ],
+    [ -> msg { msg =~ /\b(weather|temperature)\b/ }, :say_current_temp ],
+    [ -> _ { !Wolfram.appid.nil? }, :wolfram_alpha_search ],
     [ ->(text){ true }, :say_wat? ]
   ]
 
@@ -22,6 +25,7 @@ module Behaviour
     # Why shouldn't we do this?
     @@weather_token = '83658a490b36698e09e779d265859910'
     @@giphy_token = 'dc6zaTOxFJmzC'
+    Wolfram.appid = ENV['WOLFRAM_APPID']
 
     def say_hi(data)
       message channel: data.channel, text: "Hi <@#{data.user}>! :wave:"
@@ -53,8 +57,41 @@ module Behaviour
       message channel: data.channel, text: response
     end
 
+    def wolfram_alpha_search(data)
+      begin
+        typing channel: data.channel
+
+        query  = data.text.sub("wolfram", "").strip
+        result = Wolfram.fetch(query)
+        hash   = Wolfram::HashPresenter.new(result).to_hash
+
+        image_urls = result.pods.map { |p| p.img["src"] }
+
+        data_attachments =
+          hash[:pods]
+            .except("Images", "Image")
+            .reject { |_, text| text.empty? || text.first.empty? }
+            .map do |title, texts|
+              {
+                title: title,
+                text: texts.join("\n")
+              }
+            end
+
+        attachments = [{
+          image_url: image_urls.drop(1).first, # drop the image title
+          title: query,
+          text: "I found you this:",
+        }].concat(data_attachments)
+
+        web_client.chat_postMessage channel: data.channel, attachments: attachments
+      rescue
+        message channel: data.channel, text: "Sorry, I could not complete your query"
+      end
+    end
+
     def say_current_temp(data)
-      uri = URI.parse("http://api.openweathermap.org/data/2.5/weather?APPID=#{@@weather_token}&q=#{URI.escape(data.text)}") 
+      uri = URI.parse("http://api.openweathermap.org/data/2.5/weather?APPID=#{@@weather_token}&q=#{URI.escape(data.text)}")
       begin
         weather = JSON.parse(uri.read)
         location = weather["name"]
