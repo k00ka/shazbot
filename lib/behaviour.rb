@@ -1,3 +1,4 @@
+require 'slack'
 require 'open-uri'
 require 'byebug'
 

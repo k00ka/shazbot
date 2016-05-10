@@ -6,6 +6,7 @@ class Shazbot < Slack::RealTime::Client
 
   def initialize(auth_token, behaviours)
     set_auth_token(auth_token) # set the token before initializing the client!
+    enable_logging
     super()
     @behaviours = behaviours
     register_callbacks
@@ -18,6 +19,12 @@ private
       raise ArgumentError, "Token not set. Perhaps you forgot to set and export the token variable in your environment?"
     end
     Slack.config.token = token
+  end
+
+  def enable_logging(level = Logger::INFO)
+    logger = Logger.new("log/message.log")
+    logger.level = level
+    Slack.config.logger = logger
   end
 
   def register_callbacks
