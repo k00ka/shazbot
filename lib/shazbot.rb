@@ -1,3 +1,6 @@
+# Shazbot class - Ruby Hack Night chatbot
+# Original code by David Andrews and Jason Schweier, 2016 - Ryatta.com
+#
 require 'slack'
 require './lib/behaviour'
 

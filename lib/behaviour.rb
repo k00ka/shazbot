@@ -1,7 +1,11 @@
+# Shazbot behaviours module - Ruby Hack Night chatbot
+# Original code by David Andrews and Jason Schweier, 2016 - Ryatta.com
+#
 require 'slack'
 require 'open-uri'
-require 'byebug'
 require 'wolfram'
+
+require 'byebug'
 require "pry"
 
 module Behaviour
@@ -12,12 +16,12 @@ module Behaviour
   # This table specifies matchers and handlers. The first matching row will be run.
   @@config =
   [
-    [ /\b(hi|hello|howdy)\b/, :say_hi ],
+    [ /\b(hi|hello|howdy|yo)\b/, :say_hi ],
     [ "time", :say_time ],
     [ /\bgif\b/, :serve_a_gif ],
-    [ -> msg { msg =~ /\b(weather|temperature)\b/ }, :say_current_temp ],
-    [ -> _ { !Wolfram.appid.nil? }, :wolfram_alpha_search ],
-    [ ->(text){ true }, :say_wat? ]
+    [ ->(msg){ msg =~ /\b(weather|temperature)\b/ }, :say_current_temp ],
+    [ ->(_){ !Wolfram.appid.nil? }, :wolfram_alpha_search ],
+    [ ->(_){ true }, :say_wat? ]
   ]
 
   module Handlers

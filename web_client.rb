@@ -1,4 +1,6 @@
+# Slack web client demo file
 require 'slack'
+
 Slack.config.token = ENV['SLACK_BOT_TOKEN']
 
 client = Slack::Web::Client.new
