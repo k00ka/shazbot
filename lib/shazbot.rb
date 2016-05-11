@@ -2,7 +2,6 @@
 # Original code by David Andrews and Jason Schweier, 2016 - Ryatta.com
 #
 require 'slack'
-
 require 'byebug'
 
 class Shazbot < Slack::RealTime::Client
@@ -19,11 +18,7 @@ class Shazbot < Slack::RealTime::Client
       @hook_blocks ||= []
       @hook_blocks << [matcher, block]
     end
-
-    def condition(matcher, &block)
-      @hook_blocks ||= []
-      @hook_blocks << [matcher, block]
-    end
+    alias_method :condition, :said
   end
 
 private
