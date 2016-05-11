@@ -55,6 +55,10 @@
     width:            90%;
   }
 
+  .small img {
+    width:            20%;
+  }
+
   .green {
     color:            #00c000;
   }
@@ -89,6 +93,8 @@
 </style>
 
 layout: true
+class: middle
+
 .footer[![Logo](https://raw.githubusercontent.com/k00ka/shazbot/master/images/shazbot.png)Shazbot - the Ruby Hack Night Chatbot]
 ---
 name: inverse
@@ -102,16 +108,15 @@ https://gnab.github.io/remark/remarkise?url=https://raw.githubusercontent.com/k0
 Remarkise instead](https://gnab.github.io/remark/remarkise?url=https://raw.githubusercontent.com/k00ka/shazbot/master/SLIDES.md) to **see the presentation in interactive slides**.<br><br><br><br>]
 
 # Shazbot - the Ruby Hack Night Chatbot
-Chatbot and Slack workshop  
+Chatbot and Slack workshop - May 11, 2016 
 Presented by David Andrews, Ryatta Group  
 Developed by David Andrews and Jason Schweier, 2016  
   
 ![Mork saying Shazbot!](https://raw.githubusercontent.com/k00ka/shazbot/master/images/mork.png)
 
 ---
-class: middle
 
-# Agenda
+#Agenda
 * connecting to Slack
 * establishing behaviours
 * matchers
@@ -122,20 +127,17 @@ class: middle
   * current temperatures
   * Wolfram Alpha
 ---
-class: middle
 
 #Connecting to Slack
 * API endpoint
 * token
 ---
-class: middle
 
 # Matchers
 * can be a String or Regexp (anchored or not)
 * can be a Lambda (block) taking one argument (message text)
 * the first truthy matcher has its handler executed
 ---
-class: middle
 
 # Handlers
 * a method name (symbol) defined in the Behaviour::Handlers context
@@ -143,7 +145,6 @@ class: middle
 * message data contains channel, team, text, timestamp, type, user
 * access to entire Slack API (note: self is client)
 ---
-class: middle
 
 # APIs
 Slack has two types:
@@ -156,7 +157,6 @@ Slack-ruby-client gem:
 
 Let's look...
 ---
-class: middle
 
 #Slack Web API
 ##https://api.slack.com/methods
@@ -167,7 +167,6 @@ Select endpoints:
 * users_info - user
 * files_upload - filename, file|post, [title, initial_comment]
 ---
-class: middle
 
 #Slack Realtime API
 ##https://api.slack.com/rtm
@@ -176,9 +175,8 @@ Select endpoints:
 * typing - message slack with the "user is typing" flag
 * ping - keep alive request
 ---
-class: middle
 
-#Instance variables in the gem!
+#Instance variables in the gem
 * url - A WebSocket Message Server URL
 * self - The authenticated bot user
 * team - Details on the authenticated user's team
@@ -188,24 +186,30 @@ class: middle
 * ims - A hash of IM objects, one for every direct message channel visible to the authenticated user
 * bots - Details of the integrations set up on this team
 ---
-class:middle
 
-#Considerations
+#Code review
+* bot.rb - the runner
+* shazbot.rb - the class
+* behaviour.rb - matchers and handlers
+---
+
+#Design considerations
 * Triggers
   * Keyphrases
-  * Third-party
+  * 3rd-party
   * Natural Language Processing
     * Compound Sentences
 * Responses
   * Personality
 ---
-class: middle
 
-#Code review
-* bot.rb
-* shazbot.rb
-* behaviour.rb
+#Idea generation
+* use cases
+* APIs and 3rd-party services
+* useful tools
+
 ---
-class: middle
 
-#
+#Make it so
+
+.small[![k00ka](https://emoji.slack-edge.com/T06HP930V/k00ka/86bb3793626f1a2e.png)]
