@@ -21,7 +21,7 @@ module Behaviour
     [ /\bgif\b/, :serve_a_gif ],
     [ ->(msg){ msg =~ /\b(weather|temperature)\b/ }, :say_current_temp ],
     [ ->(_){ !Wolfram.appid.nil? }, :wolfram_alpha_search ],
-    [ ->(_){ true }, :say_wat? ]
+    [ ->(_){ true }, :say_wat? ] # alternative fallback if Wolfram is not enabled, above
   ]
 
   module Handlers
