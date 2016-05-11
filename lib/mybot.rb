@@ -19,6 +19,10 @@ class MyBot < Shazbot
     @weather_token = '83658a490b36698e09e779d265859910'
     @giphy_token = 'dc6zaTOxFJmzC'
     Wolfram.appid = ENV['WOLFRAM_APPID']
+
+    # define some state/variables for our bot here
+    # e.g we can cache our wolfram queries to save some API calls and respond faster
+    @wolfram_queries = {}
   end
 
   said /\b(hi|hello|howdy|yo)\b/ do |data|
@@ -30,12 +34,12 @@ class MyBot < Shazbot
     message channel: data.channel, text: response
   end
 
-  said /\bgif\b/ do |data|
-    serve_a_gif(data)
-  end
-
   condition ->(msg){ msg =~ /\b(weather|temperature)\b/ } do |data|
     say_current_temp(data)
+  end
+
+  said /\bgif\b/ do |data|
+    serve_a_gif(data)
   end
 
   condition ->(_){ !Wolfram.appid.nil? } do |data|
@@ -82,8 +86,8 @@ private
     begin
       typing channel: data.channel
 
-      query  = data.text.sub("wolfram", "").strip
-      result = Wolfram.fetch(query)
+      query  = data.text.strip
+      result = fetch_wolfram_query_for(query)
       hash   = Wolfram::HashPresenter.new(result).to_hash
 
       image_urls = result.pods.map { |p| p.img["src"] }
@@ -108,6 +112,16 @@ private
       web_client.chat_postMessage channel: data.channel, attachments: attachments
     rescue
       message channel: data.channel, text: "Sorry, I could not complete your query"
+    end
+  end
+
+  def fetch_wolfram_query_for(query)
+    if @wolfram_queries.key?(query)
+      @wolfram_queries[query]
+    else
+      result = Wolfram.fetch(query)
+      @wolfram_queries[query] = result
+      result
     end
   end
 end
