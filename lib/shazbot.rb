@@ -2,17 +2,28 @@
 # Original code by David Andrews and Jason Schweier, 2016 - Ryatta.com
 #
 require 'slack'
-require './lib/behaviour'
+
+require 'byebug'
 
 class Shazbot < Slack::RealTime::Client
-  include Behaviour::Handlers
-
-  def initialize(auth_token, behaviours)
+  def initialize(auth_token)
     set_auth_token(auth_token) # set the token before initializing the client!
     enable_logging
     super()
-    @behaviours = behaviours
+    copy_hooks
     register_callbacks
+  end
+
+  class << self
+    def said(matcher, &block)
+      @hook_blocks ||= []
+      @hook_blocks << [matcher, block]
+    end
+
+    def condition(matcher, &block)
+      @hook_blocks ||= []
+      @hook_blocks << [matcher, block]
+    end
   end
 
 private
@@ -30,6 +41,10 @@ private
     Slack.config.logger = logger
   end
 
+  def copy_hooks
+    @hook_blocks = self.class.instance_variable_get(:@hook_blocks)
+  end
+
   def register_callbacks
     on :hello do
       $stderr.puts "Successfully connected, welcome '#{self.self.name}' to the '#{team.name}' team at https://#{team.domain}.slack.com."
@@ -39,9 +54,9 @@ private
       # DO NOT REMOVE: ignore any messages that are either from a bot or on a general channel (i.e. DMs only)
       next if !users[data.user] || users[data.user].is_bot || data.channel.start_with?('C')
 
-      matcher, handler = @behaviours.detect { |matcher, _| matcher.respond_to?(:call) ? matcher.call(data.text) : data.text.match(matcher) }
+      matcher, handler = @hook_blocks.detect { |matcher, _| matcher.respond_to?(:call) ? matcher.call(data.text) : data.text.match(matcher) }
       begin
-        method(handler).call(data) if handler
+        instance_exec(data, &handler) if handler
       rescue Exception => e
         $stderr.puts "handler threw an exception:\n#{e.message}\n#{e.backtrace.inspect}"
       end
