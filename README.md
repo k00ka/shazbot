@@ -21,8 +21,8 @@ This project is a simple Ruby + Slack project. If you follow the instructions be
 - responds to request for "gif" and a topic with an animated gif related to the topic [ as presented ]
 - responds to arbitrary Wolfram Alpha requests with text and images (only if Wolfram API key is provided) [ as presented ]
 - responds to all other requests with a shrug (only if no Wolfram API key is provided) [ as presented ]
-- responds "stackme <query>" that returns the top 5 StackOverflow search results, or a fun error message [ Josh & Jason ]
-- responds "stackme <query>" that returns the top StackOverflow search result (I'm feeling lucky!), or a fun error message [ Josh & Jason ]
+- responds to "stackme" and a topic with the top 5 Stack Overflow search results, or a fun error message [ Josh & Jason ]
+- responds to "stackhappy" and a topic with the top Stack Overflow search result (I'm feeling lucky!), or a fun error message [ Josh & Jason ]
 
 ###Setup
 
