@@ -25,6 +25,14 @@ class MyBot < Shazbot
     @wolfram_queries = {}
   end
 
+  said "stackhappy" do |data|
+    stack_happy(data)
+  end
+
+  said "stackme" do |data|
+    stack_me(data)
+  end
+
   said /\b(hi|hello|howdy|yo)\b/ do |data|
     message channel: data.channel, text: "Hi <@#{data.user}>! :wave:"
   end
@@ -42,16 +50,58 @@ class MyBot < Shazbot
     serve_a_gif(data)
   end
 
-  condition ->(_){ !Wolfram.appid.nil? } do |data|
+  condition ->{ Wolfram.appid } do |data|
     wolfram_alpha_search(data)
   end
 
   # alternative fallback if Wolfram is not enabled, above
-  condition ->(_){ true } do |data|
+  condition ->{ true } do |data|
     message channel: data.channel, text: "Sorry <@#{data.user}>, what:question:"
   end
 
 private
+  def stack_happy(data)
+    uri = uri_for(data.text.gsub("stackhappy", "").strip)
+    begin
+      search_result = JSON.parse(uri.read)
+      links = search_result["items"].map { |ans| ans["link"] }.take(1)
+      response = links.any? ? links.join("\n") : sassy_nil_response
+    rescue => e
+      puts e.message
+      response = ":funeral_urn: Your query has died. Funeral services are tomorrow at 7am"
+    end
+
+    message channel: data.channel, text: response, unfurl_links: true
+  end
+
+  def stack_me(data)
+    uri = uri_for(data.text.gsub("stackme", "").strip)
+    begin
+      result = JSON.parse(uri.read)
+      attachments = result["items"].map { |ans| { text: ans["link"], title: ans["title"] }}.take(5)
+      if attachments.any?
+        web_client.chat_postMessage channel: data.channel, attachments: attachments, unfurl_links: true
+      else
+        message channel: data.channel, text: sassy_nil_response
+      end
+    rescue => e
+      puts e.message
+      response = ":funeral_urn: Your query has died. Funeral services are tomorrow at 7am"
+      message channel: data.channel, text: response, unfurl_links: true
+    end
+  end
+
+  def uri_for(query)
+    URI.parse("https://api.stackexchange.com/2.2/search/advanced?order=desc&sort=relevance&q=#{URI.escape(query)}&site=stackoverflow")
+  end
+
+  def sassy_nil_response
+    [
+      ["No results!", "Nada.", "Zilch."].sample,
+      ["Aren't you the unique :snowflake:", "Here's your consolation prize :poop:"].sample
+    ].join(" ")
+  end
+
   def say_current_temp(data)
     uri = URI.parse("http://api.openweathermap.org/data/2.5/weather?APPID=#{@weather_token}&q=#{URI.escape(data.text)}")
     begin
