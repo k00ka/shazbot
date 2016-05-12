@@ -5,7 +5,7 @@ Slides and assets for the Shazbot workshop [first presented at Toronto Ruby Hack
 Workshop for learning Chatbots and Slack  
 Created by David Andrews and Jason Schweier  
 
-Slides for the workshop are here:  
+Slides for the workshop are here: _FYI remarkise doesn't work in Safari, sorry_  
 https://gnab.github.io/remark/remarkise?url=https://raw.githubusercontent.com/k00ka/shazbot/master/SLIDES.md
 
 ###Introduction
@@ -13,9 +13,18 @@ https://gnab.github.io/remark/remarkise?url=https://raw.githubusercontent.com/k0
 
 This project is a simple Ruby + Slack project. If you follow the instructions below, you can test your machine in advance of the workshop.
 
-We have provided a repository which mimics the setup we used last time, so it should be familiar. The code to be created is found in the ``lib/`` directory.
+###Capabilities
+
+- responds to "hi", "hello" or "howdy" with a greeting [ as presented ]
+- responds to "time" with the current time (server timezone) [ as presented ]
+- responds to requests for "weather" or "temperature" and a place name with the current temperature (in Celsius) [ as presented ]
+- responds to request for "gif" and a topic with an animated gif related to the topic [ as presented ]
+- responds to arbitrary Wolfram Alpha requests with text and images (only if Wolfram API key is provided) [ as presented ]
+- responds to all other requests with a shrug (only if no Wolfram API key is provided) [ as presented ] 
 
 ###Setup
+
+We have provided a repository which mimics the setup we used last time, so it should be familiar. The code to be created is found in the ``lib/`` directory.
 
 Here are the steps to get you started with the repo.
 
