@@ -9,7 +9,7 @@ Slides for the workshop are here: _FYI remarkise doesn't work in Safari, sorry_
 https://gnab.github.io/remark/remarkise?url=https://raw.githubusercontent.com/k00ka/shazbot/master/SLIDES.md
 
 ###Introduction
-![Mork says Shazbot!](http://www.unmotivating.com/wp-content/uploads/2014/08/ntpIdWz.jpg)
+![Mork says Shazbot!](https://www.socialstudent.co.uk/wp-content/uploads/2014/08/17-ntpIdWz.jpg)
 
 This project is a simple Ruby + Slack project. If you follow the instructions below, you can test your machine in advance of the workshop.
 
@@ -92,4 +92,4 @@ Here are the steps to get you started with the repo.
 ![](images/twelve.png)
 1. Try setting a breakpoint in the Behaviour::Handlers#say_hi method and triggering it by typing "hi" into your chat.
 
-## Congrats on your new Slackbot intgration!
+## Congrats on your new Slackbot integration!
